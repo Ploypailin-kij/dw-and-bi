@@ -1,42 +1,54 @@
-from typing import NewType
-
 import psycopg2
 
 
-PostgresCursor = NewType("PostgresCursor", psycopg2.extensions.cursor)
-PostgresConn = NewType("PostgresConn", psycopg2.extensions.connection)
+table_drop = "DROP TABLE IF EXISTS events;DROP TABLE IF EXISTS actor;DROP TABLE IF EXISTS org;DROP TABLE IF EXISTS repo"
 
-table_drop_events = "DROP TABLE IF EXISTS events"
-table_drop_actors = "DROP TABLE IF EXISTS actors"
+table_create = """
+CREATE TABLE IF NOT EXISTS actor (
+                actor_id INTEGER PRIMARY KEY,
+                login VARCHAR(50) ,
+                display_login VARCHAR(100) ,
+                gravatar_id VARCHAR(100),
+                url VARCHAR(255) ,
+                avatar_url VARCHAR(255) 
+);
+CREATE TABLE IF NOT EXISTS org (
+                org_id INTEGER PRIMARY KEY,
+                login VARCHAR(50) ,
+                gravatar_id VARCHAR(100),
+                url VARCHAR(255) ,
+                avatar_url VARCHAR(255) 
 
-table_create_actors = """
-    CREATE TABLE IF NOT EXISTS actors (
-        id int,
-        login text,
-        PRIMARY KEY(id)
-    )
+);
+CREATE TABLE IF NOT EXISTS repo (
+                repo_id INTEGER PRIMARY KEY,
+                name VARCHAR(100) ,
+                url VARCHAR(255) 
+);
+CREATE TABLE IF NOT EXISTS events (
+                events_id BIGINT PRIMARY KEY,
+                type VARCHAR ,
+                public VARCHAR ,
+                created_at TIMESTAMP ,
+                actor_id INTEGER ,
+                org_id INTEGER ,
+                repo_id INTEGER ,
+                CONSTRAINT fk_actor FOREIGN KEY(actor_id) REFERENCES actor(actor_id) ,
+                CONSTRAINT fk_org FOREIGN KEY(org_id) REFERENCES org(org_id) ,
+                CONSTRAINT fk_repo FOREIGN KEY(repo_id) REFERENCES repo(repo_id)
+)
 """
-table_create_events = """
-    CREATE TABLE IF NOT EXISTS events (
-        id text,
-        type text,
-        actor_id int,
-        PRIMARY KEY(id),
-        CONSTRAINT fk_actor FOREIGN KEY(actor_id) REFERENCES actors(id)
-    )
-"""
+
 
 create_table_queries = [
-    table_create_actors,
-    table_create_events,
+    table_create
 ]
 drop_table_queries = [
-    table_drop_events,
-    table_drop_actors,
+    table_drop
 ]
 
 
-def drop_tables(cur: PostgresCursor, conn: PostgresConn) -> None:
+def drop_tables(cur, conn) -> None:
     """
     Drops each table using the queries in `drop_table_queries` list.
     """
@@ -45,7 +57,7 @@ def drop_tables(cur: PostgresCursor, conn: PostgresConn) -> None:
         conn.commit()
 
 
-def create_tables(cur: PostgresCursor, conn: PostgresConn) -> None:
+def create_tables(cur, conn) -> None:
     """
     Creates each table using the queries in `create_table_queries` list.
     """
