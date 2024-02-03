@@ -1,7 +1,5 @@
 # Data Warehouse and Business Intelligent
 
-# Data Modeling I
-
 ## Getting Started
 
 ```sh
