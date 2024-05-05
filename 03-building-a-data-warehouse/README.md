@@ -21,9 +21,12 @@ $ pip install -r requirements.txt
 
 5. Create Key ใน Google query เพื่อใช้ในการสร้าง Scipt python เพื่อ Google bigquery ได้
 
+
 6. หลังจากนั้นดาวน์โหลดไฟล์ JSON เก็บไว้ใน Local Storage
 
+
 7. ใน Google query ให้สร้าง Folder จัดเก็บไฟล์ JSON ใน code space และใส่ project_id ที่มาจาก project name บน Bigquery 
+
 
 8. สามารถจัดการการ Create Table/ Insert/ Update Data ผ่าน script etl.py โดยกำหนด file_path = github_detail.csv และ ใช้ข้อมูล github_events_01.json
 ```sh

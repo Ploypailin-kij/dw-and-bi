@@ -31,7 +31,7 @@ $ python ety.py
 ```
 
 
-##Shutdown steps
+#Shutdown steps
 
 7. stop Cassandra service by shutdown Docker:
 ```sh
