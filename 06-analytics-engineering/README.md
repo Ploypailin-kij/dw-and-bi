@@ -43,25 +43,23 @@ cd ds525
 dbt debug
 ```
 
-8. การนำข้อมูลขึ้นบน postgres จะใช้ข้อมูลจาก ds525/models .sql และใช้โครงสร้างในการ source ข้อมูลจาก _src.yml /
-dbt_project.yml ใช้ในการกำหนดโครงสร้างชื่อหรือประเภท tables/view ที่สร้าง และไม่สนใจโครงสร้างของ folder
+8. Run คำสั่งด้านล่างเพื่อเอาข้อมูลขึ้นบน postgres จะใช้ข้อมูลจาก ds525/models .sql โดยใช้ dbt_project.yml  ในการกำหนดโครงสร้าง tables และ view 
 ```sh
 dbt run
 ```
 
 
-11. จากนั้นรันคำสั่ง test เพื่อเช็ค data quality
+11. Run คำสั่ง test เพื่อเช็ค data quality
 ```sh
 dbt test
 ```
 
-![image](https://github.com/Fooklnwza007/dw-and-bi/assets/131597296/4cc47d15-bb45-4026-a4d8-5500007c9dc2)
-
-
+#Shutdown steps
 12. ปิดการทำงาน docker
 ```sh
 docker compose down
 ```
+
 13. ออกจาก ENV
 ```sh
 deactivate
